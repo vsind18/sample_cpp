@@ -2,6 +2,9 @@
 #define ACCOUNT_H
 
 #include <string>
+#include <iostream>
+#include <iomanip>
+#include <openssl/evp.h>
 
 class accountInfo{
     private:

@@ -1,10 +1,11 @@
-#include <iostream>
-#include <fstream>
 #include <filesystem>
 #include <regex>
+#include <utility>
 #include "include/account.h"
+#include "include/adminfunc.h"
 
-/*  g++ -o main main.cpp src/account.cpp -lssl -lcrypto */
+
+/*  g++ -o main main.cpp src/account.cpp src/adminfunc.cpp -lssl -lcrypto */
 bool isValidEmail(const std::string& email) {
     std::regex emailRegex("^[a-zA-Z0-9._%+-]+@gmail\\.com$");
     return std::regex_match(email, emailRegex);
@@ -19,8 +20,8 @@ bool isValidRole(const std::string& role) {
     return role == "user" || role == "admin";
 }
 
-std::string signIn(){
-    std::cout << "\n =====Sign in====\n";
+std::pair<std::string, std::string> signIn() {
+    std::cout << "\n===== Sign in =====\n";
     std::string usname, pwd;
     std::cout << "Username: ";
     std::getline(std::cin, usname);
@@ -30,7 +31,7 @@ std::string signIn(){
     std::ifstream infile("list_account.csv");
     if (!infile.is_open()) {
         std::cerr << "Error: Cannot open file.\n";
-        return "";
+        return {"", ""};
     }
 
     std::string line;
@@ -38,26 +39,28 @@ std::string signIn(){
 
     while (std::getline(infile, line)) {
         std::istringstream iss(line);
-        std::string username, password, fullName, email, phone, role;
+        std::string username, storedHash, fullName, email, phone, role;
 
         std::getline(iss, username, ',');
-        std::getline(iss, password, ',');
+        std::getline(iss, storedHash, ',');
         std::getline(iss, fullName, ',');
         std::getline(iss, email, ',');
         std::getline(iss, phone, ',');
         std::getline(iss, role, ',');
 
+        // Băm mật khẩu người dùng nhập vào
         accountInfo tmpAcc(username, pwd, fullName, email, phone, role);
         std::string hashPass = tmpAcc.hashPassword(pwd);
 
-        if (username == usname && password == hashPass) {
+        // So sánh username và hash mật khẩu
+        if (username == usname && storedHash == hashPass) {
             std::cout << "Login successful! Role: " << role << "\n";
-            return role;
+            return {username, role};
         }
     }
 
     std::cout << "Invalid username or password.\n";
-    return "";
+    return {"", ""};
 }
 
 void signUp(const std::string& uname = "", const std::string& pwd = "", 
@@ -99,16 +102,22 @@ void signUp(const std::string& uname = "", const std::string& pwd = "",
         }
     } while (phoneNumber.empty() || !isValidPhoneNumber(phoneNumber));
 
-    do {
-        if (userRole.empty()) {
-            std::cout << "Enter role (user/admin): ";
-            std::getline(std::cin, userRole);
-        }
-        if (!isValidRole(userRole)) {
-            std::cout << "Invalid role. Please enter 'user' or 'admin'.\n";
-            userRole.clear();
-        }
-    } while (userRole.empty() || !isValidRole(userRole));
+    if(userRole != "admin"){
+        userRole = "user";
+        std::cout <<"set default user role\n";
+    } else {
+        do {
+            if (userRole.empty()) {
+                std::cout << "Enter role (user/admin): ";
+                std::getline(std::cin, userRole);
+            }
+            if (!isValidRole(userRole)) {
+                std::cout << "Invalid role. Please enter 'user' or 'admin'.\n";
+                userRole.clear();
+            }
+        } while (userRole.empty() || !isValidRole(userRole));
+    }
+    
 
     accountInfo newAcc(username, password, fullName, email, phoneNumber, userRole);
     std::string hashPass = newAcc.hashPassword(password);
@@ -136,13 +145,16 @@ int main(){
     std::cout << "\n =====Reward wallet====\n";
     signUp("admin", "admin2025", "admin", "admin@gmail.com", "0931654687", "admin");
     while (true){
-        std::cout <<"1. Sign in\n 2. Sign up\n 3. Exit\n Chosse: ";
+        std::cout <<"1. Sign in\n2. Sign up\n3. Exit\nChosse: ";
         int choice;
         std::cin >> choice;
         std::cin.ignore();
 
         if (choice == 1) {
-            signIn();
+            auto [userName, userRole] = signIn();
+            if (userRole == "admin"){
+                    adminManagement(userName);
+            }
         } else if (choice == 2) {
             signUp();
         } else if (choice == 3) {

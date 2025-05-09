@@ -1,7 +1,4 @@
 #include "../include/account.h"
-#include <iostream>
-#include <iomanip>
-#include <openssl/evp.h>
 
 std::string accountInfo::hashPassword(const std::string& pwd) {
     // Tạo context cho việc tính toán SHA256
