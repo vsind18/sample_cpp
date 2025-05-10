@@ -1,8 +1,5 @@
-username,password,fullName,email,phoneNumber,role
-admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin
-syvu,3f790ea2eadf4b06acebf0882f06bd687fa3539113b360719020dc84062e8d65,sy vu van,syvu03@gmail.com,02332,user
-admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin
-admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin
-admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin
-admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin
-admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin
+username,password,fullName,email,phoneNumber,role,changePasswordFlag
+admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin,0,
+user,04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb,user,user@gmail.com,932,user,0,
+user2,6025d18fe48abd45168528f18a82e265dd98d421a7084aa09f61b341703901a3,user2,user2@gmail.com,92358,user,0,
+admin1,25f43b1486ad95a1398e3eeb3d83bc4010015fcc9bedb35b432e00298d5021f7,admin1,admin1@gmail.com,2398,admin,0,

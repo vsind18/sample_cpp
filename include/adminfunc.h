@@ -5,11 +5,18 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <random>
 
 #include "account.h"
 
-std::string changePassword();
-void userInformation();
+void changePassword(const std::string& userName);
+void userInformation(const std::string& userName);
+void userListInformation();
+
+std::string randomPass(int length = 10);
+void createNewAcc();
+void userListInfo();
+
 void adminManagement(const std::string& userName);
 
 #endif //ADMINFUNC_H
