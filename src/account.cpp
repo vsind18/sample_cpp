@@ -167,13 +167,14 @@ void signUp(const std::string& uname , const std::string& pwd ,
         }
     } while (phoneNumber.empty() || !isValidPhoneNumber(phoneNumber));
 
-    if(userRole != "admin"){
+    if (userRole != "admin") {
         userRole = "user";
-        std::cout <<"set default user role\n";
+        std::cout << "set default user role\n";
     }
 
     bool fileExists = std::filesystem::exists("list_account.csv");
     bool adminExists = false;
+    bool usernameExists = false;
     std::ostringstream updatedData;
 
     if (fileExists) {
@@ -190,6 +191,9 @@ void signUp(const std::string& uname , const std::string& pwd ,
             if (existingUsername == "admin") {
                 adminExists = true;
             }
+            if (existingUsername == username) {
+                usernameExists = true;
+            }
             updatedData << line << "\n";
         }
         infile.close();
@@ -202,9 +206,14 @@ void signUp(const std::string& uname , const std::string& pwd ,
         return;
     }
 
+    if (usernameExists) {
+        std::cout << "Username already exists. Please choose another username.\n";
+        return;
+    }
+
     accountInfo newAcc(username, password, fullName, email, phoneNumber, userRole);
     std::string hashPass = newAcc.hashPassword(password);
-    updatedData << username << "," << hashPass << "," << fullName << "," << email << "," << phoneNumber << "," << userRole << "," << flag << "," <<"\n";
+    updatedData << username << "," << hashPass << "," << fullName << "," << email << "," << phoneNumber << "," << userRole << "," << flag << "," << "\n";
     std::ofstream outfile("list_account.csv", std::ios::trunc);
     if (outfile.is_open()) {
         outfile << updatedData.str();
@@ -216,4 +225,3 @@ void signUp(const std::string& uname , const std::string& pwd ,
 
     std::cout << "Account created successfully!\n";
 }
-
