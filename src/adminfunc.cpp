@@ -164,34 +164,227 @@ void userListInfo() {
     infile.close();
 }
 
+void editUserInfo(const std::string& username) {
+    std::string inputPassword;
+    std::cout << "Enter password to confirm your identity: ";
+    std::getline(std::cin, inputPassword);
+
+    std::ifstream infile("list_account.csv");
+    if (!infile.is_open()) {
+        std::cerr << "Error: Cannot open file.\n";
+        return;
+    }
+
+    std::ostringstream updatedData;
+    std::string line;
+    std::getline(infile, line); // skip header
+    updatedData << line << "\n";
+
+    bool found = false;
+
+    while (std::getline(infile, line)) {
+        std::istringstream iss(line);
+        std::string usname, storedHash, fullName, email, phone, role, changePassFlagStr;
+
+        std::getline(iss, usname, ',');
+        std::getline(iss, storedHash, ',');
+        std::getline(iss, fullName, ',');
+        std::getline(iss, email, ',');
+        std::getline(iss, phone, ',');
+        std::getline(iss, role, ',');
+        std::getline(iss, changePassFlagStr, ',');
+
+        if (username == usname) {
+            // Hash the input password
+            accountInfo tmpAcc(username, inputPassword, fullName, email, phone, role);
+            std::string hashPass = tmpAcc.hashPassword(inputPassword);
+
+            if (storedHash == hashPass) {
+                std::cout << "Confirmed edit information!!\n";
+                accountInfo acc(usname, inputPassword, fullName, email, phone, role);
+
+                if (role == "admin") {
+                    std::cout << "Editing admin's personal information.\n";
+                    std::string newUsername, newFullName, newEmail, newPhone;
+                    std::cout << "Enter new username: ";
+                    std::getline(std::cin, newUsername);
+                    std::cout << "Enter new full name: ";
+                    std::getline(std::cin, newFullName);
+                    std::cout << "Enter new email: ";
+                    std::getline(std::cin, newEmail);
+                    std::cout << "Enter new phone number: ";
+                    std::getline(std::cin, newPhone);
+
+                    acc.setUsername(newUsername);
+                    acc.setFullName(newFullName);
+                    acc.setEmail(newEmail);
+                    acc.setPhoneNumber(newPhone);
+
+                    std::cout << "Admin information is changed successfully!\n";
+                } else {
+                    std::cout << "Editing your personal information.\n";
+                    std::string newUserName, newFullName;
+                    std::cout << "Enter new username: ";
+                    std::getline(std::cin, newUserName);
+                    std::cout << "Enter new full name: ";
+                    std::getline(std::cin, newFullName);
+
+                    acc.setUsername(newUserName);
+                    acc.setFullName(newFullName);
+
+                    std::cout << "User information is changed successfully!\n";
+                }
+
+                // Ghi dòng đã cập nhật
+                updatedData << acc.getUsername() << "," << acc.hashPassword(acc.getPassword()) << ","
+                            << acc.getFullname() << "," << acc.getEmail() << "," << acc.getPhoneNumber() << ","
+                            << acc.getRole() << "," << changePassFlagStr << "\n";
+                found = true;
+                continue; // bỏ qua ghi lại dòng cũ
+            }
+        }
+
+        // Ghi lại dòng cũ nếu không phải tài khoản được chỉnh sửa
+        updatedData << usname << "," << storedHash << "," << fullName << "," 
+                    << email << "," << phone << "," << role << "," << changePassFlagStr << "\n";
+    }
+
+    infile.close();
+
+    if (!found) {
+        std::cout << "User not found or incorrect password!\n";
+        return;
+    }
+
+    std::ofstream outfile("list_account.csv", std::ios::trunc);
+    if (!outfile.is_open()) {
+        std::cerr << "Cannot write file!\n";
+        return;
+    }
+
+    outfile << updatedData.str();
+    outfile.close();
+}
+
+void adminEditUser() {
+    std::string targetUsername;
+    std::cout << "Enter the username of the user to edit: ";
+    std::getline(std::cin, targetUsername);
+
+    std::ifstream infile("list_account.csv");
+    if (!infile.is_open()) {
+        std::cerr << "Error: Cannot open file.\n";
+        return;
+    }
+
+    std::ostringstream updatedData;
+    std::string line;
+    std::getline(infile, line); // header
+    updatedData << line << "\n";
+
+    bool found = false;
+
+    while (std::getline(infile, line)) {
+        std::istringstream iss(line);
+        std::string usname, storedHash, fullName, email, phone, role, changePassFlagStr;
+
+        std::getline(iss, usname, ',');
+        std::getline(iss, storedHash, ',');
+        std::getline(iss, fullName, ',');
+        std::getline(iss, email, ',');
+        std::getline(iss, phone, ',');
+        std::getline(iss, role, ',');
+        std::getline(iss, changePassFlagStr, ',');
+
+        if (usname == targetUsername) {
+            std::cout << "Editing information for user: " << usname << "\n";
+            std::string newFullName, newEmail, newPhone;
+
+            std::cout << "Enter new full name: ";
+            std::getline(std::cin, newFullName);
+            std::cout << "Enter new email: ";
+            std::getline(std::cin, newEmail);
+            std::cout << "Enter new phone number: ";
+            std::getline(std::cin, newPhone);
+
+            updatedData << usname << "," << storedHash << "," << newFullName << ","
+                        << newEmail << "," << newPhone << "," << role << "," << changePassFlagStr << "\n";
+            found = true;
+        } else {
+            updatedData << usname << "," << storedHash << "," << fullName << ","
+                        << email << "," << phone << "," << role << "," << changePassFlagStr << "\n";
+        }
+    }
+
+    infile.close();
+
+    if (!found) {
+        std::cout << "User not found.\n";
+        return;
+    }
+
+    std::ofstream outfile("list_account.csv", std::ios::trunc);
+    if (!outfile.is_open()) {
+        std::cerr << "Cannot write file.\n";
+        return;
+    }
+
+    outfile << updatedData.str();
+    outfile.close();
+
+    std::cout << "User information updated successfully.\n";
+}
+
 
 void adminManagement(const std::string& userName){
     std::cout << "\n =====Create a new account====\n";
     while(true){
         std::cout << "\n =====Admin Management====\n";
-        std::cout <<"1. Information\n2. Change your password\n3. Create a new user\n4. User list information\n5.Cancel\nChosse: ";
+        std::cout <<"1. Manage your information\n2. Manage users information\n3. Cancel\nChosse: ";
         int adminChoice;
         std::cin >> adminChoice;
         std::cin.ignore();
+
+        int case1choice,case2choice;
+
         switch (adminChoice) {
             case 1:
-                userInformation(userName);
+                while(case1choice != 4){
+                    std::cout << "\n =====Manage your information====\n";
+                    std::cout <<"1. View your information\n2. Edit your information\n3. Change your password\n4. Cancel\nChoose: ";
+                    std::cin >> case1choice;
+                    std::cin.ignore();
+                    if (case1choice == 1){
+                        userInformation(userName);
+                    } else if (case1choice == 2) {
+                        editUserInfo(userName);
+                        std::cout << "Must sign in again!\n";
+                        return;
+                    } else if (case1choice == 3){
+                        changePassword(userName);
+                    } 
+                }
                 break;
-
             case 2:
-                changePassword(userName);
-                break;
+                while(case2choice != 4){
+                    std::cout << "\n =====Manage users information====\n";
+                    std::cout <<"1. View your information\n2. Edit user information\n3. Create a new account\n4. Cancel\nChoose: ";
+                    std::cin >> case2choice;
+                    std::cin.ignore();
+                    if (case2choice == 1){
+                        userListInfo();
+                    } else if (case2choice == 2) {
+                        adminEditUser();
 
+                    } else if (case2choice == 3) {
+                        createNewAcc();
+                    }
+                }
+                break;
+            
             case 3:
-                createNewAcc();
-                break;
-
-            case 4:
-                userListInfo();
-                break;
-
-            case 5:
-                return; 
+    
+                return;
 
             default:
                 std::cout << "Invalid choice.\n";

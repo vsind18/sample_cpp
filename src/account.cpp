@@ -54,23 +54,25 @@ void accountInfo::displayInfo() const {
               << "Role: " << role << "\n";
 }
 
+std::string accountInfo::getUsername(){
+    return username;
+}
 std::string accountInfo::getPassword(){
     return password;
 }
-
-bool isValidEmail(const std::string& email) {
-    std::regex emailRegex("^[a-zA-Z0-9._%+-]+@gmail\\.com$");
-    return std::regex_match(email, emailRegex);
+std::string accountInfo::getFullname(){
+    return fullName;
+}
+std::string accountInfo::getEmail(){
+    return email;
+}
+std::string accountInfo::getPhoneNumber(){
+    return phoneNumber;
+}
+std::string accountInfo::getRole(){
+    return role;
 }
 
-bool isValidPhoneNumber(const std::string& phone) {
-    std::regex phoneRegex("^[0-9]+$"); 
-    return std::regex_match(phone, phoneRegex);
-}
-
-bool isValidRole(const std::string& role) {
-    return role == "user" || role == "admin";
-}
 
 void accountInfo::setUsername(const std::string& uname) { username = uname; }
 void accountInfo::setPassword(const std::string& pwd) { password = hashPassword(pwd); }
@@ -145,28 +147,16 @@ void signUp(const std::string& uname , const std::string& pwd ,
         std::cout << "Enter full name: ";
         std::getline(std::cin, fullName);
     }
-    do {
-        if (email.empty()) {
-            std::cout << "Enter email: ";
-            std::getline(std::cin, email);
-        }
-        if (!isValidEmail(email)) {
-            std::cout << "Invalid email. Please enter a valid Gmail address.\n";
-            email.clear();
-        }
-    } while (email.empty() || !isValidEmail(email));
-
-    do {
-        if (phoneNumber.empty()) {
-            std::cout << "Enter phone number: ";
-            std::getline(std::cin, phoneNumber);
-        }
-        if (!isValidPhoneNumber(phoneNumber)) {
-            std::cout << "Invalid phone number. Please enter only numbers.\n";
-            phoneNumber.clear();
-        }
-    } while (phoneNumber.empty() || !isValidPhoneNumber(phoneNumber));
-
+    if (email.empty()) {
+        std::cout << "Enter email: ";
+        std::getline(std::cin, email);
+    }
+    
+    if (phoneNumber.empty()) {
+        std::cout << "Enter phone number: ";
+        std::getline(std::cin, phoneNumber);
+    }
+    
     if (userRole != "admin") {
         userRole = "user";
         std::cout << "set default user role\n";

@@ -17,6 +17,8 @@ int main(){
             auto [userName, userRole] = signIn();
             if (userRole == "admin"){
                     adminManagement(userName);
+            } else if (userRole == "user"){
+                
             }
         } else if (choice == 2) {
             signUp("", "", "", "" ,"", "", false);

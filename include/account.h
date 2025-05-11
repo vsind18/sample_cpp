@@ -28,7 +28,13 @@ class accountInfo{
         
         void displayInfo() const;
 
+        std::string getUsername();
         std::string getPassword();
+        std::string getFullname();
+        std::string getEmail();
+        std::string getPhoneNumber();
+        std::string getRole();
+        
 
         void setUsername(const std::string& uname);
         void setPassword(const std::string& pwd);
