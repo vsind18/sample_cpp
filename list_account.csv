@@ -1,4 +1,2 @@
-username,password,fullName,email,phoneNumber,role
-admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin
-admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin
- dmindq,91c9c3ff310a53f8d179461d9af55371c78b67c38ab030bf9c026693ca495399,akasjf,a@gmail.com,02349,admin
+userid,username,password,fullName,email,phoneNumber,role,ischangepassword
+1,admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin,0

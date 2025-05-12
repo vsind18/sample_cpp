@@ -44,7 +44,7 @@ accountInfo::accountInfo(const std::string &uID, const std::string &uname, const
 int accountInfo::signIn(const std::string uName, const std::string pwd){
     std::ifstream infile("list_account.csv");
     if (!infile.is_open()) {
-        return -1;  // Trả về -1 nếu không thể mở file
+        return -2;  // Trả về -2 nếu không thể mở file
     }
 
     std::string line;
@@ -52,8 +52,9 @@ int accountInfo::signIn(const std::string uName, const std::string pwd){
 
     while (std::getline(infile, line)) {
         std::istringstream iss(line);
-        std::string username, storedHash, fullName, email, phone, role, changePassFlagStr;
+        std::string userid,username, storedHash, fullName, email, phone, role, changePassFlagStr;
 
+        std::getline(iss, userid, ',');
         std::getline(iss, username, ',');
         std::getline(iss, storedHash, ',');
         std::getline(iss, fullName, ',');
@@ -70,6 +71,7 @@ int accountInfo::signIn(const std::string uName, const std::string pwd){
             return 0;  // Trả về 0 nếu đăng nhập thành công
         }
     }
+    return -1;  // Nếu không tìm thấy tên đăng nhập hoặc mật khẩu sai, trả về -1
 }
 
 int accountInfo::signUp(const std::string &uID, const std::string& uname, const std::string& pwd, 
@@ -90,7 +92,9 @@ int accountInfo::signUp(const std::string &uID, const std::string& uname, const 
 
         while (std::getline(infile, line)) {
             std::istringstream iss(line);
-            std::string existingUsername;
+            std::string userid,existingUsername;
+
+            std::getline(iss, userid, ',');
             std::getline(iss, existingUsername, ',');  // Lấy tên người dùng
 
             if (existingUsername == "admin") {
@@ -119,7 +123,7 @@ int accountInfo::signUp(const std::string &uID, const std::string& uname, const 
 
     accountInfo newAcc(uID, uname, pwd, fname, mail, phone, role);
     std::string hashPass = newAcc.hashPassword(pwd); 
-    updatedData << uname << "," << hashPass << "," << fname << "," << mail << "," 
+    updatedData << uID << "," << uname << "," << hashPass << "," << fname << "," << mail << "," 
                 << phone << "," << role << "," << isChangePass << "\n";
 
     std::ofstream outfile("list_account.csv", std::ios::trunc);
@@ -130,4 +134,31 @@ int accountInfo::signUp(const std::string &uID, const std::string& uname, const 
     } else {
         return -1;  // Trả về -1 nếu không thể mở file
     }
+}
+
+std::string getNextUIDFromCSV(const std::string& filename ) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        return "1"; // Nếu file chưa tồn tại, bắt đầu từ 1
+    }
+
+    std::string line;
+    std::getline(file, line); // Bỏ dòng tiêu đề
+
+    int lastUID = 0;
+
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string uidStr;
+        std::getline(ss, uidStr, ','); // Lấy uid ở cột đầu tiên
+
+        // Chuyển uid từ chuỗi sang số
+        int currentUID = std::stoi(uidStr);
+        if (currentUID > lastUID) {
+            lastUID = currentUID;
+        }
+    }
+
+    // uid tiếp theo sẽ là lớn nhất + 1
+    return std::to_string(lastUID + 1);
 }

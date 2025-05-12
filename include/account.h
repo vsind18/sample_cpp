@@ -35,6 +35,11 @@ class accountInfo{
         
         userInfo getUserByID(const std::string uID);
         int signIn(const std::string uName, const std::string pwd);
+        int signUp(const std::string &uID = "", const std::string& uname = "" , const std::string& pwd = "", 
+            const std::string& fname = "", const std::string& mail = "", 
+            const std::string& phone = "", const std::string& role = "",
+            bool changePassFlag = false);
 };
 
+std::string getNextUIDFromCSV(const std::string& filename = "list_account.csv");
 #endif //ACCOUNT_H
