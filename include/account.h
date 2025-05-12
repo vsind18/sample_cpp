@@ -2,9 +2,23 @@
 #define ACCOUNT_H
 
 #include <string>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <openssl/evp.h>
+#include <filesystem>
+
+struct userInfo{
+    std::string userName;
+    std::string email;
+    std::string fullName;
+    std::string phoneNumber;
+    std::string role;
+};
 
 class accountInfo{
     private:
+        std::string userID;
         std::string username;
         std::string password;
         std::string fullName;
@@ -15,11 +29,12 @@ class accountInfo{
     public: 
         std::string hashPassword(const std::string& pwd);
 
-        accountInfo(const std::string &uname, const std::string& pwd,
+        accountInfo(const std::string &uID, const std::string &uname, const std::string& pwd,
                 const std::string &fname, const std::string &e,
                 const std::string &phone, const std::string &r);
         
-        void displayInfo() const;
+        userInfo getUserByID(const std::string uID);
+        int signIn(const std::string uName, const std::string pwd);
 };
 
 #endif //ACCOUNT_H
