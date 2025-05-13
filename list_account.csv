@@ -1,2 +1,5 @@
 userid,username,password,fullName,email,phoneNumber,role,ischangepassword
 1,admin,0e89f223e226ae63268cf39152ab75722e811b89d29efb22a852f1667bd22ae0,admin,admin@gmail.com,0931654687,admin,0
+2,john123,9b8769a4a742959a2d0298c36fb70623f2dfacda8436237df08d8dfd5b37374c,John Doe,john@example.com,0123456789,user,0
+3,admin1,713bfda78870bf9d1b261f565286f85e97ee614efe5f0faf7c34e7ca4f65baca,Admin One,admin1@example.com,0987654321,user,0
+4,duplicate,5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5,Dup User,dup@example.com,0111222333,user,0

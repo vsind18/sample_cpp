@@ -77,7 +77,19 @@ int accountInfo::signIn(const std::string uName, const std::string pwd){
 int accountInfo::signUp(const std::string &uID, const std::string& uname, const std::string& pwd, 
                         const std::string& fname, const std::string& mail, 
                         const std::string& phone, const std::string& role,
-                        bool isChangePass) {
+                        const std::string& roleCreator, bool isChangePass) {
+    std::string userRole;
+    bool flag = isChangePass;
+
+    if (roleCreator != "admin"){
+        userRole = "user"; //set as default
+    } else {
+        if (role.empty()){
+            return -4; //nhập role cho new acc
+        }
+        userRole = role;
+        flag = true;
+    }
 
     bool fileExists = std::filesystem::exists("list_account.csv");
     bool adminExists = false;
@@ -117,14 +129,13 @@ int accountInfo::signUp(const std::string &uID, const std::string& uname, const 
     }
 
     if (usernameExists) {
-        std::cout << "Username already exists. Please choose another username.\n";
         return -3;  // Trả về -3 nếu tên đăng nhập đã có
     }
 
     accountInfo newAcc(uID, uname, pwd, fname, mail, phone, role);
     std::string hashPass = newAcc.hashPassword(pwd); 
     updatedData << uID << "," << uname << "," << hashPass << "," << fname << "," << mail << "," 
-                << phone << "," << role << "," << isChangePass << "\n";
+                << phone << "," << userRole << "," << isChangePass << "\n";
 
     std::ofstream outfile("list_account.csv", std::ios::trunc);
     if (outfile.is_open()) {

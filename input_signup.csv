@@ -1,0 +1,5 @@
+username,password,fullName,email,phoneNumber
+john123,pass123,John Doe,john@example.com,0123456789
+admin1,adminpass,Admin One,admin1@example.com,0987654321
+duplicate,12345,Dup User,dup@example.com,0111222333
+duplicate,99999,Dup User 2,dup2@example.com,0111222444

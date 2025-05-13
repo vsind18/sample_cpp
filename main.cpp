@@ -10,8 +10,8 @@ int loginMenu(){
 
 int main(){
     //default admin
-    accountInfo admin("1", "admin", "admin2025", "admin", "admin@gmail.com", "0931654687", "admin");
-    int result_admin = admin.signUp(ADMIN_ID_DEFAULT, "admin", "admin2025", "admin", "admin@gmail.com", "0931654687", "admin");
+    accountInfo admin(ADMIN_ID_DEFAULT, "admin", "admin2025", "admin", "admin@gmail.com", "0931654687", "admin");
+    int result_admin = admin.signUp(ADMIN_ID_DEFAULT, "admin", "admin2025", "admin", "admin@gmail.com", "0931654687", "admin","admin", false);
 
     accountInfo acc("", "","", "","", "","");
 
@@ -25,7 +25,7 @@ int main(){
             
             uID = getNextUIDFromCSV();
             
-            int result = acc.signUp(uID, username, password, fullname, email, phone, role, false);
+            int result = acc.signUp(uID, username, password, fullname, email, phone, role, "user", false);
         } else {
             return -1;
         }
