@@ -190,6 +190,7 @@ namespace UI
           user.setPasswordHash(UserService::hashPassword(newPass));
           UserService::saveUser(user);
           alert("Password updated.");
+          UserService::backup();
         }
         else
         {
@@ -353,6 +354,7 @@ namespace UI
             target.setPasswordHash(UserService::hashPassword(newPass));
             UserService::saveUser(target);
             alert("Password updated.");
+            UserService::backup();
           }
           else
           {

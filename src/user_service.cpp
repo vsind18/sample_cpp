@@ -6,6 +6,10 @@
 #include <iomanip>
 #include <openssl/sha.h>
 #include <iostream>
+#include <random>
+#include <chrono>
+#include <ctime>
+#include <filesystem>
 
 const std::string USER_DB = USER_DB_PATH;
 
@@ -21,6 +25,26 @@ std::string hash(const std::string &input)
 
 namespace UserService
 {
+  void backup()
+  {
+    std::filesystem::create_directory("backup");
+
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+    std::tm* tm = std::localtime(&now_time);
+
+    char buffer[100];
+    std::strftime(buffer, sizeof(buffer), "%Y%m%d_%H%M%S", tm);
+
+    std::string backupFilename = "backup/users_" + std::string(buffer) + ".db";
+
+    std::ifstream src(USER_DB, std::ios::binary);
+    std::ofstream dst(backupFilename, std::ios::binary);
+    dst << src.rdbuf();
+
+    std::cout << "[INFO] Backup saved to: " << backupFilename << "\n";
+  }
+
   bool userExists(const std::string &username)
   {
     std::ifstream file(USER_DB);
@@ -106,6 +130,20 @@ namespace UserService
     return false;
   }
 
+  std::string randomPass(int length){
+    const std::string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    std::string password;
+    std::random_device rd;                         // random seed
+    std::mt19937 gen(rd());                       // Mersenne Twister engine
+    std::uniform_int_distribution<> dist(0, chars.size() - 1);  // uniform distribution
+
+    for (int i = 0; i < length; ++i) {
+        password += chars[dist(gen)];
+    }
+
+    return password;
+  }
+
   bool registerUser(User &outUser, bool isAdmin)
   {
     std::string fullName, username, password, role;
@@ -122,8 +160,8 @@ namespace UserService
 
       if (role == "user")
       {
-        password = "init123";
-        std::cout << "[INFO] Default password for new user is: init123\n";
+        password = randomPass(10);
+        std::cout << "[INFO] Default password for new user is: " << password << " \n";
       }
       else
       {
@@ -144,6 +182,9 @@ namespace UserService
     outUser = user;
 
     saveUser(user);
+
+    backup();
+  
 
     if (role == "user")
     {
@@ -179,6 +220,7 @@ namespace UserService
           saveUser(tempUser);
 
           std::cout << "Password changed successfully.\n";
+          backup();
         }
 
         userOut = tempUser;
@@ -192,4 +234,5 @@ namespace UserService
   {
     return hash(password);
   }
+
 }

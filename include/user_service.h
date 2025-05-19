@@ -12,4 +12,6 @@ namespace UserService
   bool findUserByUsername(const std::string &username, User &foundUser);
 
   std::string hashPassword(const std::string &password);
+  std::string randomPassword(int length = 10);
+  void backup();
 }
