@@ -167,6 +167,7 @@ namespace UI
           user.setFullName(newName);
           UserService::saveUser(user);
           alert("Name updated.");
+          UserServicce::backup();
         }
         else
         {
