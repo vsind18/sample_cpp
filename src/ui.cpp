@@ -187,7 +187,7 @@ namespace UI
         cin >> input;
         if (OTP::verifyOTP(otp, input))
         {
-          user.setHashedPassword(UserService::hashPassword(newPass));
+          user.setPasswordHash(UserService::hashPassword(newPass));
           UserService::saveUser(user);
           alert("Password updated.");
         }
@@ -350,7 +350,7 @@ namespace UI
           cin >> input;
           if (OTP::verifyOTP(otp, input))
           {
-            target.setHashedPassword(UserService::hashPassword(newPass));
+            target.setPasswordHash(UserService::hashPassword(newPass));
             UserService::saveUser(target);
             alert("Password updated.");
           }

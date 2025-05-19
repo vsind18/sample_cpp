@@ -1,12 +1,19 @@
 #include "../../include/models/user.h"
 
-User::User(const std::string &username, const std::string &hashedPassword, const std::string &fullName, const std::string &role)
-    : username(username), hashedPassword(hashedPassword), fullName(fullName), role(role) {}
+User::User() : username(""), hashedPassword(""), fullName(""), role("user"), mustChangePassword(false) {}
 
-const std::string &User::getUsername() const { return username; }
-const std::string &User::getHashedPassword() const { return hashedPassword; }
-const std::string &User::getFullName() const { return fullName; }
-const std::string &User::getRole() const { return role; }
+User::User(const std::string &username, const std::string &hashedPassword,
+           const std::string &fullName, const std::string &role, bool mustChangePassword)
+    : username(username), hashedPassword(hashedPassword), fullName(fullName),
+      role(role), mustChangePassword(mustChangePassword) {}
 
-void User::setFullName(const std::string &name) { fullName = name; }
-void User::setHashedPassword(const std::string &hashed) { hashedPassword = hashed; }
+std::string User::getUsername() const { return username; }
+std::string User::getHashedPassword() const { return hashedPassword; }
+std::string User::getFullName() const { return fullName; }
+std::string User::getRole() const { return role; }
+bool User::getMustChangePassword() const { return mustChangePassword; }
+
+void User::setPasswordHash(const std::string &newHash) { hashedPassword = newHash; }
+void User::setFullName(const std::string &newName) { fullName = newName; }
+void User::setRole(const std::string &newRole) { role = newRole; }
+void User::setMustChangePassword(bool val) { mustChangePassword = val; }

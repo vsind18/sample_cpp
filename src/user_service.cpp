@@ -40,27 +40,53 @@ namespace UserService
 
   bool saveUser(const User &user)
   {
-    std::ofstream file("data/users.db", std::ios::app);
-    if (!file)
-      return false;
-    file << user.getUsername() << "," << user.getHashedPassword() << "," << user.getFullName() << "," << user.getRole() << "\n";
+    // Load all users
+    std::vector<User> users;
+    loadAllUsers(users);
+
+    // Overwrite or append
+    bool updated = false;
+    for (auto &u : users)
+    {
+      if (u.getUsername() == user.getUsername())
+      {
+        u = user;
+        updated = true;
+        break;
+      }
+    }
+    if (!updated)
+      users.push_back(user);
+
+    std::ofstream file(USER_DB, std::ios::trunc);
+    for (const auto &u : users)
+    {
+      file << u.getUsername() << ","
+           << u.getHashedPassword() << ","
+           << u.getFullName() << ","
+           << u.getRole() << ","
+           << u.getMustChangePassword() << "\n";
+    }
     return true;
   }
 
   bool loadAllUsers(std::vector<User> &users)
   {
     users.clear();
-    std::ifstream file("data/users.db");
+    std::ifstream file(USER_DB);
     std::string line;
     while (std::getline(file, line))
     {
       std::stringstream ss(line);
-      std::string username, hash, fullname, role;
+      std::string username, hash, fullname, role, mustChangeStr;
       std::getline(ss, username, ',');
       std::getline(ss, hash, ',');
       std::getline(ss, fullname, ',');
       std::getline(ss, role, ',');
-      users.emplace_back(username, hash, fullname, role);
+      std::getline(ss, mustChangeStr, ',');
+
+      bool mustChange = (mustChangeStr == "1" || mustChangeStr == "true");
+      users.emplace_back(username, hash, fullname, role, mustChange);
     }
     return true;
   }
@@ -88,34 +114,41 @@ namespace UserService
     std::getline(std::cin, fullName);
     std::cout << "Username: ";
     std::cin >> username;
-    std::cout << "Password: ";
-    std::cin >> password;
 
     if (isAdmin)
     {
       std::cout << "Role (user/admin): ";
       std::cin >> role;
+
+      if (role == "user")
+      {
+        password = "init123";
+        std::cout << "[INFO] Default password for new user is: init123\n";
+      }
+      else
+      {
+        std::cout << "Password: ";
+        std::cin >> password;
+      }
     }
     else
     {
       role = "user";
+      std::cout << "Password: ";
+      std::cin >> password;
     }
 
     std::string hashed = hash(password);
-    User user(username, hashed, fullName, role);
+    bool mustChange = isAdmin && role == "user";
+    User user(username, hashed, fullName, role, mustChange);
     outUser = user;
 
-    if (!saveUser(user))
-      return false;
+    saveUser(user);
 
     if (role == "user")
     {
-      // Tạo ví cho user và chuyển 100 điểm từ ví tổng
-      WalletService::createWalletForUser(user.getUsername());
-      if (!WalletService::transferPoints("master_wallet", user.getUsername(), 100.0))
-      {
-        std::cerr << "Failed to transfer 100 points from master wallet.\n";
-      }
+      WalletService::createWalletForUser(username);
+      WalletService::transferPoints("master_wallet", username, 100.0);
     }
 
     return true;
@@ -129,11 +162,25 @@ namespace UserService
     std::cout << "Password: ";
     std::cin >> password;
 
-    User tempUser("", "", "", "");
+    User tempUser;
     if (findUserByUsername(username, tempUser))
     {
       if (hash(password) == tempUser.getHashedPassword())
       {
+        if (tempUser.getMustChangePassword())
+        {
+          std::string newPass;
+          std::cout << "First-time login detected. You must change your password.\n";
+          std::cout << "New password: ";
+          std::cin >> newPass;
+
+          tempUser.setPasswordHash(hash(newPass));
+          tempUser.setMustChangePassword(false);
+          saveUser(tempUser);
+
+          std::cout << "Password changed successfully.\n";
+        }
+
         userOut = tempUser;
         return true;
       }
