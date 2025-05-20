@@ -33,9 +33,9 @@ T safeInput(const string &prompt = "Choice: ")
 namespace UI
 {
 
-  void alert(const std::string &message)
+  void alert(const string &message)
   {
-    std::cout << "[INFO] " << message << std::endl;
+    cout << "[INFO] " << message << endl;
   }
 
   void showMainMenu()
@@ -185,8 +185,9 @@ namespace UI
       {
         cout << "\n===== Edit Full Name =====\n";
         cout << "New Full Name: ";
-        cin.ignore();
         string newName;
+        if (std::cin.rdbuf()->in_avail() > 0)
+          std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         getline(cin, newName);
 
         string otp = OTP::generateOTP();

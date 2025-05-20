@@ -1,6 +1,8 @@
 #include "../include/user_service.h"
 #include "../include/wallet_service.h"
 #include "../include/config.h"
+#include "../include/ui.h"
+#include "../include/otp.h"
 #include <fstream>
 #include <sstream>
 #include <iomanip>
@@ -152,7 +154,8 @@ namespace UserService
     std::string fullName, username, password, role;
     std::cout << "\n===== CREATE NEW ACCOUNT =====\n";
     std::cout << "Full name: ";
-    std::cin.ignore();
+    if (std::cin.rdbuf()->in_avail() > 0)
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(std::cin, fullName);
 
     std::cout << "Username: ";
@@ -245,12 +248,23 @@ namespace UserService
           std::cout << "New password: ";
           std::cin >> newPass;
 
-          tempUser.setPasswordHash(hash(newPass));
-          tempUser.setMustChangePassword(false);
-          saveUser(tempUser);
-
-          std::cout << "Password changed successfully.\n";
-          backup();
+          std::string otp = OTP::generateOTP();
+          std::cout << "[OTP]: " << otp << "\nEnter OTP to confirm: ";
+          std::string input;
+          std::cin >> input;
+          if (OTP::verifyOTP(otp, input))
+          {
+            tempUser.setPasswordHash(hash(newPass));
+            tempUser.setMustChangePassword(false);
+            saveUser(tempUser);
+            UI::alert("Password changed successfully.\n");
+            backup();
+          }
+          else
+          {
+            UI::alert("Invalid OTP.");
+            return false;
+          }
         }
 
         userOut = tempUser;
