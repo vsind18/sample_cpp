@@ -98,7 +98,7 @@ namespace WalletService
 
   bool transferPoints(const std::string &fromUser, const std::string &toUser, double amount)
   {
-    if (amount <= 0)
+    if (amount < 0)
       return false;
 
     Wallet fromWallet("", 0), toWallet("", 0);

@@ -311,9 +311,40 @@ namespace UI
         string toUser;
         cin >> toUser;
 
-        cout << "Enter amount to transfer: ";
+        Wallet fromWallet;
+        if (!WalletService::loadWallet(user.getUsername(), fromWallet))
+        {
+          alert("Failed to load your wallet.");
+          break;
+        }
+
         double amount;
-        cin >> amount;
+        while (true)
+        {
+          cout << "Enter amount to transfer: ";
+          cin >> amount;
+
+          if (cin.fail())
+          {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            alert("Invalid input. Please enter a number.");
+            continue;
+          }
+
+          if (amount <= 0)
+          {
+            alert("Amount must be greater than 0.");
+          }
+          else if (amount > fromWallet.getBalance())
+          {
+            alert("Amount exceeds your available balance.");
+          }
+          else
+          {
+            break;
+          }
+        }
 
         string otp = OTP::generateOTP();
         cout << "[OTP]: " << otp << "\nEnter OTP to confirm: ";

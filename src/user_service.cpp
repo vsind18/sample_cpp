@@ -229,7 +229,14 @@ namespace UserService
     if (role == "user")
     {
       WalletService::createWalletForUser(username);
-      WalletService::transferPoints("master_wallet", username, 100.0);
+      Wallet master;
+      if (WalletService::loadWallet("master_wallet", master))
+      {
+        double available = master.getBalance();
+        double transferAmount = std::min(available, 100.0);
+
+        WalletService::transferPoints("master_wallet", username, transferAmount);
+      }
     }
 
     return true;

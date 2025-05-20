@@ -1,6 +1,6 @@
 #include "../../include/models/wallet.h"
 
-Wallet::Wallet() : ownerUsername(""), balance(0.0) {} // ✅ Thêm dòng này
+Wallet::Wallet() : ownerUsername(""), balance(0.0) {}
 
 Wallet::Wallet(const std::string &ownerUsername, double balance)
     : ownerUsername(ownerUsername), balance(balance) {}
