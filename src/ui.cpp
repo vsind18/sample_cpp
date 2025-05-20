@@ -76,6 +76,7 @@ namespace UI
     do
     {
       cout << "\n===== USER MENU =====\n";
+      cout << "Welcome, " << user.getUsername() << "\n";
       cout << "1. Manage Personal Info\n";
       cout << "2. Manage Wallet\n";
       cout << "3. Logout\n";
@@ -105,6 +106,7 @@ namespace UI
     do
     {
       cout << "\n===== ADMIN MENU =====\n";
+      cout << "Welcome, " << admin.getUsername() << "\n";
       cout << "1. Manage Personal Info\n";
       cout << "2. Manage Users\n";
       cout << "3. Logout\n";
@@ -146,6 +148,7 @@ namespace UI
       switch (choice)
       {
       case 1:
+        cout << "\n--- Your Information ---\n";
         cout << "Username: " << user.getUsername() << "\n";
         cout << "Full Name: " << user.getFullName() << "\n";
         cout << "Role: " << user.getRole() << "\n";
@@ -153,6 +156,7 @@ namespace UI
 
       case 2:
       {
+        cout << "\n--- Edit Full Name ---\n";
         cout << "New Full Name: ";
         cin.ignore();
         string newName;
@@ -167,7 +171,7 @@ namespace UI
           user.setFullName(newName);
           UserService::saveUser(user);
           alert("Name updated.");
-          UserServicce::backup();
+          UserService::backup();
         }
         else
         {
@@ -178,6 +182,7 @@ namespace UI
 
       case 3:
       {
+        cout << "\n--- Change Password ---\n";
         cout << "New Password: ";
         string newPass;
         cin >> newPass;
@@ -225,7 +230,7 @@ namespace UI
       cout << "\n--- Wallet Management ---\n";
       cout << "Wallet ID: WALLET_" << wallet.getOwner() << "\n";
       cout << "Balance: " << wallet.getBalance() << " points\n";
-      cout << "--------------------------\n";
+      cout << "--------------------------\n\n";
       cout << "1. Transfer Points\n";
       cout << "2. View Transaction History\n";
       cout << "3. Back\n";
@@ -236,6 +241,7 @@ namespace UI
       {
       case 1:
       {
+        cout << "\n--- Transfer Points ---\n";
         cout << "Enter recipient username: ";
         string toUser;
         cin >> toUser;
@@ -313,6 +319,7 @@ namespace UI
       {
         vector<User> users;
         UserService::loadAllUsers(users);
+        cout << "Username - Full name - Role\n";
         for (auto &u : users)
           cout << u.getUsername() << " - " << u.getFullName() << " - " << u.getRole() << "\n";
         break;
