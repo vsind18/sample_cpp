@@ -35,6 +35,8 @@ namespace UI
         continue;
       }
 
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
       switch (choice)
       {
       case 1:
@@ -100,6 +102,8 @@ namespace UI
         continue;
       }
 
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
       switch (choice)
       {
       case 1:
@@ -138,6 +142,8 @@ namespace UI
         continue;
       }
 
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
       switch (choice)
       {
       case 1:
@@ -162,7 +168,14 @@ namespace UI
     int choice;
     do
     {
-      cout << "\n===== Manage Information =====\n";
+      if (isAdminEdit)
+      {
+        cout << "\nManger " << user.getUsername() << "'s information\n";
+      }
+      else
+      {
+        cout << "\n===== Manage Information =====\n";
+      }
       cout << "1. View Profile\n";
       cout << "2. Edit Full Name\n";
       cout << "3. Change Password\n";
@@ -177,6 +190,8 @@ namespace UI
         alert("Invalid input. Please enter a number.");
         continue;
       }
+
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
       switch (choice)
       {
@@ -278,6 +293,8 @@ namespace UI
         continue;
       }
 
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
       switch (choice)
       {
       case 1:
@@ -352,6 +369,7 @@ namespace UI
       cout << "4. Create New User\n";
       cout << "5. Back\n";
       cout << "Choice: ";
+      cin >> choice;
 
       if (cin.fail())
       {
@@ -360,6 +378,8 @@ namespace UI
         alert("Invalid input. Please enter a number.");
         continue;
       }
+      
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
       switch (choice)
       {

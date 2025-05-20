@@ -167,13 +167,31 @@ namespace UserService
 
     if (isAdmin)
     {
-      std::cout << "Role (user/admin): ";
-      std::cin >> role;
+      int roleChoice;
+      do
+      {
+        std::cout << "Select role:\n";
+        std::cout << "1. Admin\n";
+        std::cout << "2. User\n";
+        std::cout << "Choice: ";
+        std::cin >> roleChoice;
+
+        if (std::cin.fail() || (roleChoice != 1 && roleChoice != 2))
+        {
+          std::cin.clear();                                                   // xóa trạng thái lỗi
+          std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // xóa dữ liệu sai
+          std::cout << "[ERROR] Invalid choice. Please enter 1 for Admin or 2 for User.\n";
+        }
+      } while (roleChoice != 1 && roleChoice != 2);
+
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+      role = (roleChoice == 1) ? "admin" : "user";
 
       if (role == "user")
       {
         password = randomPass(10);
-        std::cout << "[INFO] Password for new user is: " << password << " \n";
+        std::cout << "[INFO] Password for new user is: " << password << "\n";
       }
       else
       {
