@@ -137,7 +137,7 @@ namespace UI
     int choice;
     do
     {
-      cout << "\n--- Manage Information ---\n";
+      cout << "\n===== Manage Information =====\n";
       cout << "1. View Profile\n";
       cout << "2. Edit Full Name\n";
       cout << "3. Change Password\n";
@@ -148,7 +148,7 @@ namespace UI
       switch (choice)
       {
       case 1:
-        cout << "\n--- Your Information ---\n";
+        cout << "\n===== Your Information =====\n";
         cout << "Username: " << user.getUsername() << "\n";
         cout << "Full Name: " << user.getFullName() << "\n";
         cout << "Role: " << user.getRole() << "\n";
@@ -156,7 +156,7 @@ namespace UI
 
       case 2:
       {
-        cout << "\n--- Edit Full Name ---\n";
+        cout << "\n===== Edit Full Name =====\n";
         cout << "New Full Name: ";
         cin.ignore();
         string newName;
@@ -182,7 +182,7 @@ namespace UI
 
       case 3:
       {
-        cout << "\n--- Change Password ---\n";
+        cout << "\n===== Change Password =====\n";
         cout << "New Password: ";
         string newPass;
         cin >> newPass;
@@ -227,7 +227,7 @@ namespace UI
         return;
       }
 
-      cout << "\n--- Wallet Management ---\n";
+      cout << "\n===== Wallet Management =====\n";
       cout << "Wallet ID: WALLET_" << wallet.getOwner() << "\n";
       cout << "Balance: " << wallet.getBalance() << " points\n";
       cout << "--------------------------\n\n";
@@ -241,7 +241,7 @@ namespace UI
       {
       case 1:
       {
-        cout << "\n--- Transfer Points ---\n";
+        cout << "\n===== Transfer Points =====\n";
         cout << "Enter recipient username: ";
         string toUser;
         cin >> toUser;
@@ -276,7 +276,7 @@ namespace UI
       {
         vector<Transaction> history;
         WalletService::getTransactionHistory(user.getUsername(), history);
-        cout << "\n--- Transaction History ---\n";
+        cout << "\n===== Transaction History =====\n";
         for (const auto &tx : history)
         {
           time_t ts = tx.getTimestamp();
@@ -304,7 +304,7 @@ namespace UI
     int choice;
     do
     {
-      cout << "\n--- User Management ---\n";
+      cout << "\n===== User Management =====\n";
       cout << "1. View All Users\n";
       cout << "2. Edit User Info\n";
       cout << "3. Change User Password\n";
@@ -319,6 +319,7 @@ namespace UI
       {
         vector<User> users;
         UserService::loadAllUsers(users);
+        cout << "\n===== User List =====\n";
         cout << "Username - Full name - Role\n";
         for (auto &u : users)
           cout << u.getUsername() << " - " << u.getFullName() << " - " << u.getRole() << "\n";

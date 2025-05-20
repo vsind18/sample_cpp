@@ -147,7 +147,7 @@ namespace UserService
   bool registerUser(User &outUser, bool isAdmin)
   {
     std::string fullName, username, password, role;
-    std::cout << "\n--- SIGN UP ---\n";
+    std::cout << "\n===== CREATE NEW ACCOUNT =====\n";
     std::cout << "Full name: ";
     std::cin.ignore();
     std::getline(std::cin, fullName);
@@ -198,7 +198,7 @@ namespace UserService
 
   bool loginUser(User &userOut)
   {
-    std::cout << "\n--- SIGN IN ---\n";
+    std::cout << "\n===== SIGN IN =====\n";
     std::string username, password;
     std::cout << "Username: ";
     std::cin >> username;
