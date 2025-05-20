@@ -7,6 +7,29 @@
 
 using namespace std;
 
+template <typename T>
+T safeInput(const string &prompt = "Choice: ")
+{
+  T value;
+  while (true)
+  {
+    cout << prompt;
+    cin >> value;
+
+    if (cin.fail())
+    {
+      cin.clear();                                         // Xóa trạng thái lỗi
+      cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Xóa dữ liệu sai
+      cout << "[ERROR] Invalid input. Please try again.\n";
+    }
+    else
+    {
+      cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Xóa phần dư trên dòng
+      return value;
+    }
+  }
+}
+
 namespace UI
 {
 
@@ -24,18 +47,7 @@ namespace UI
       cout << "1. Sign In\n";
       cout << "2. Sign Up\n";
       cout << "3. Exit\n";
-      cout << "Choice: ";
-      cin >> choice;
-
-      if (cin.fail())
-      {
-        cin.clear();                                         // Xóa trạng thái lỗi
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Xóa dữ liệu sai trong bộ đệm
-        alert("Invalid input. Please enter a number.");
-        continue;
-      }
-
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      choice = safeInput<int>("Choice: ");
 
       switch (choice)
       {
@@ -91,18 +103,7 @@ namespace UI
       cout << "1. Manage Personal Info\n";
       cout << "2. Manage Wallet\n";
       cout << "3. Logout\n";
-      cout << "Choice: ";
-      cin >> choice;
-
-      if (cin.fail())
-      {
-        cin.clear();                                         // Xóa trạng thái lỗi
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Xóa dữ liệu sai trong bộ đệm
-        alert("Invalid input. Please enter a number.");
-        continue;
-      }
-
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      choice = safeInput<int>("Choice: ");
 
       switch (choice)
       {
@@ -131,18 +132,7 @@ namespace UI
       cout << "1. Manage Personal Info\n";
       cout << "2. Manage Users\n";
       cout << "3. Logout\n";
-      cout << "Choice: ";
-      cin >> choice;
-
-      if (cin.fail())
-      {
-        cin.clear();                                         // Xóa trạng thái lỗi
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Xóa dữ liệu sai trong bộ đệm
-        alert("Invalid input. Please enter a number.");
-        continue;
-      }
-
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      choice = safeInput<int>("Choice: ");
 
       switch (choice)
       {
@@ -180,18 +170,7 @@ namespace UI
       cout << "2. Edit Full Name\n";
       cout << "3. Change Password\n";
       cout << "4. Back\n";
-      cout << "Choice: ";
-      cin >> choice;
-
-      if (cin.fail())
-      {
-        cin.clear();                                         // Xóa trạng thái lỗi
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Xóa dữ liệu sai trong bộ đệm
-        alert("Invalid input. Please enter a number.");
-        continue;
-      }
-
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      choice = safeInput<int>("Choice: ");
 
       switch (choice)
       {
@@ -282,18 +261,7 @@ namespace UI
       cout << "1. Transfer Points\n";
       cout << "2. View Transaction History\n";
       cout << "3. Back\n";
-      cout << "Choice: ";
-      cin >> choice;
-
-      if (cin.fail())
-      {
-        cin.clear();                                         // Xóa trạng thái lỗi
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Xóa dữ liệu sai trong bộ đệm
-        alert("Invalid input. Please enter a number.");
-        continue;
-      }
-
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      choice = safeInput<int>("Choice: ");
 
       switch (choice)
       {
@@ -368,18 +336,7 @@ namespace UI
       cout << "3. Change User Password\n";
       cout << "4. Create New User\n";
       cout << "5. Back\n";
-      cout << "Choice: ";
-      cin >> choice;
-
-      if (cin.fail())
-      {
-        cin.clear();                                         // Xóa trạng thái lỗi
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Xóa dữ liệu sai trong bộ đệm
-        alert("Invalid input. Please enter a number.");
-        continue;
-      }
-      
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      choice = safeInput<int>("Choice: ");
 
       switch (choice)
       {
