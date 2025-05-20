@@ -104,6 +104,9 @@ namespace UserService
     std::string line;
     while (std::getline(file, line))
     {
+      if (line.empty())
+        continue;
+
       std::stringstream ss(line);
       std::string username, hash, fullname, role, mustChangeStr;
       std::getline(ss, username, ',');
@@ -111,6 +114,11 @@ namespace UserService
       std::getline(ss, fullname, ',');
       std::getline(ss, role, ',');
       std::getline(ss, mustChangeStr, ',');
+
+      if (username.empty() || hash.empty() || fullname.empty() || role.empty() || mustChangeStr.empty())
+      {
+        continue;
+      }
 
       bool mustChange = (mustChangeStr == "1" || mustChangeStr == "true");
       users.emplace_back(username, hash, fullname, role, mustChange);
