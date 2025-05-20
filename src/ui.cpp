@@ -211,25 +211,63 @@ namespace UI
       case 3:
       {
         cout << "\n===== Change Password =====\n";
+        int attempts = 3;
+        string currentPassword;
+        bool authenticated = false;
+
+        while (attempts--)
+        {
+          cout << "Enter current password: ";
+          cin >> currentPassword;
+          if (user.getHashedPassword() == UserService::hashPassword(currentPassword))
+          {
+            authenticated = true;
+            break;
+          }
+          else
+          {
+            cout << "Incorrect password. Attempts left: " << attempts << "\n";
+          }
+        }
+
+        if (!authenticated)
+        {
+          alert("Too many failed attempts.");
+          break;
+        }
+
+        string newPass, confirmPass;
         cout << "New Password: ";
-        string newPass;
         cin >> newPass;
+
+        do
+        {
+          cout << "Confirm New Password: ";
+          cin >> confirmPass;
+
+          if (newPass != confirmPass)
+          {
+            alert("Passwords do not match. Please try again.");
+          }
+        } while (newPass != confirmPass);
 
         string otp = OTP::generateOTP();
         cout << "[OTP]: " << otp << "\nEnter OTP to confirm: ";
         string input;
         cin >> input;
+
         if (OTP::verifyOTP(otp, input))
         {
           user.setPasswordHash(UserService::hashPassword(newPass));
           UserService::saveUser(user);
-          alert("Password updated.");
+          alert("Password updated successfully.");
           UserService::backup();
         }
         else
         {
-          alert("Invalid OTP.");
+          alert("Invalid OTP. Password not changed.");
         }
+
         break;
       }
 

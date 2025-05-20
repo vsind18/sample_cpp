@@ -243,10 +243,21 @@ namespace UserService
       {
         if (tempUser.getMustChangePassword())
         {
-          std::string newPass;
+          std::string newPass, confirmPass;
           std::cout << "First-time login detected. You must change your password.\n";
           std::cout << "New password: ";
           std::cin >> newPass;
+
+          do
+          {
+            std::cout << "Confirm New Password: ";
+            std::cin >> confirmPass;
+
+            if (newPass != confirmPass)
+            {
+              UI::alert("Passwords do not match. Please try again.");
+            }
+          } while (newPass != confirmPass);
 
           std::string otp = OTP::generateOTP();
           std::cout << "[OTP]: " << otp << "\nEnter OTP to confirm: ";

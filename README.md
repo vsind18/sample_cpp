@@ -133,7 +133,5 @@ g++ -o main main.cpp src/otp.cpp src/ui.cpp src/user_service.cpp src/wallet_serv
 ---
 
 ## 📖 Tài liệu tham khảo
-1. CPP_OTP – GitHub (https://github.com/patzol768/cpp-otp)
-2. COTP – GitHub (https://github.com/tilkinsc/COTP)
-3. ACID là gì? (https://200lab.io/blog/acid-la-gi)
-4. Tài liệu gốc yêu cầu đồ án (https://docs.google.com/document/d/16kdtLrrRWZdKO7p58bilSueyilMu4aE5a33gN7v9dVw/edit?pli=1&tab=t.0)
+1. Tài liệu gốc yêu cầu đồ án (https://docs.google.com/document/d/16kdtLrrRWZdKO7p58bilSueyilMu4aE5a33gN7v9dVw/edit?pli=1&tab=t.0)
+2. ACID là gì? (https://200lab.io/blog/acid-la-gi)
