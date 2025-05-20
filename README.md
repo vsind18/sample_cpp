@@ -18,11 +18,11 @@ Hệ thống cung cấp các chức năng:
 
 ## 👥 Thành viên tham gia và công việc
 
-| Họ tên            | Mã SV      | Vai trò & Công việc                                          | Github        |
-| ----------------- | ---------- | ------------------------------------------------------------ | ------------- |
-| Nguyễn Trà My     | K24DTCN526 | Trưởng nhóm, thiết kế hệ thống, xây dựng lớp quản lý dữ liệu | [ntt247]      |
-| Nguyễn Quang Minh | K24DTCN524 | Viết đặc tả chức năng, xử lý quy trình OTP và đăng nhập      | [vsind18]     |
-| Lê Thành Tiến     | K24DTCN539 | Giao diện dòng lệnh, thao tác I/O, kiểm thử chương trình     | [imthanhtien] |
+| Họ tên            | Mã SV      | Vai trò & Công việc                        | Github        |
+| ----------------- | ---------- | ------------------------------------------ | ------------- |
+| Nguyễn Trà My     | K24DTCN526 | Giao diện dòng lệnh, kiểm thử chương trình | [ntt247]      |
+| Nguyễn Quang Minh | K24DTCN524 | Xử lý đăng nhập, sinh password tự động     | [vsind18]     |
+| Lê Thành Tiến     | K24DTCN539 | Trưởng nhóm, thiết kế hệ thống, quản lý ví | [imthanhtien] |
 
 ---
 
@@ -94,7 +94,7 @@ cd sample_cpp
 
 ### 🔧 Biên dịch:
 
-g++ -o main main.cpp src/otp.cpp src/ui.cpp src/user_service.cpp src/wallet_service.cpp src/models/transaction.cpp src/models/user.cpp src/models/wallet.cpp  -lssl -lcrypto
+g++ -o main main.cpp src/otp.cpp src/ui.cpp src/user_service.cpp src/wallet_service.cpp src/models/transaction.cpp src/models/user.cpp src/models/wallet.cpp -lssl -lcrypto
 
 ### ⚙️ Chạy chương trình:
 
@@ -103,35 +103,37 @@ g++ -o main main.cpp src/otp.cpp src/ui.cpp src/user_service.cpp src/wallet_serv
 ---
 
 ## 🛠️ Cấu trúc thư mục
+
 ├── main.cpp
 ├── src/
-│   ├── models/
-│   │   ├── user.cpp
-│   │   ├── wallet.cpp
-│   │   └── transaction.cpp
-│   ├── user_service.cpp
-│   ├── wallet_service.cpp
-│   ├── otp.cpp
-│   ├── ui.cpp
-│   └── config.cpp
+│ ├── models/
+│ │ ├── user.cpp
+│ │ ├── wallet.cpp
+│ │ └── transaction.cpp
+│ ├── user_service.cpp
+│ ├── wallet_service.cpp
+│ ├── otp.cpp
+│ ├── ui.cpp
+│ └── config.cpp
 ├── include/
-│   ├── models/
-│   │   ├── user.h
-│   │   ├── wallet.h
-│   │   └── transaction.h
-│   ├── user_service.h
-│   ├── wallet_service.h
-│   ├── otp.h
-│   └── ui.h
+│ ├── models/
+│ │ ├── user.h
+│ │ ├── wallet.h
+│ │ └── transaction.h
+│ ├── user_service.h
+│ ├── wallet_service.h
+│ ├── otp.h
+│ └── ui.h
 ├── data/
-│   ├── users.db
-│   ├── wallets.db
-│   └── transactions.db
+│ ├── users.db
+│ ├── wallets.db
+│ └── transactions.db
 ├── backup/
 └── README.md
 
 ---
 
 ## 📖 Tài liệu tham khảo
+
 1. Tài liệu gốc yêu cầu đồ án (https://docs.google.com/document/d/16kdtLrrRWZdKO7p58bilSueyilMu4aE5a33gN7v9dVw/edit?pli=1&tab=t.0)
 2. ACID là gì? (https://200lab.io/blog/acid-la-gi)
