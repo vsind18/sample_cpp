@@ -31,7 +31,7 @@ namespace UserService
 
     auto now = std::chrono::system_clock::now();
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
-    std::tm* tm = std::localtime(&now_time);
+    std::tm *tm = std::localtime(&now_time);
 
     char buffer[100];
     std::strftime(buffer, sizeof(buffer), "%Y%m%d_%H%M%S", tm);
@@ -49,11 +49,12 @@ namespace UserService
   {
     std::ifstream file(USER_DB);
     std::string line;
-    while (getline(file, line))
+    while (std::getline(file, line))
     {
       std::stringstream ss(line);
       std::string uname;
-      ss >> uname;
+      std::getline(ss, uname, ',');
+
       if (uname == username)
       {
         return true;
@@ -130,15 +131,17 @@ namespace UserService
     return false;
   }
 
-  std::string randomPass(int length){
+  std::string randomPass(int length)
+  {
     const std::string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     std::string password;
-    std::random_device rd;                         // random seed
-    std::mt19937 gen(rd());                       // Mersenne Twister engine
-    std::uniform_int_distribution<> dist(0, chars.size() - 1);  // uniform distribution
+    std::random_device rd;                                     // random seed
+    std::mt19937 gen(rd());                                    // Mersenne Twister engine
+    std::uniform_int_distribution<> dist(0, chars.size() - 1); // uniform distribution
 
-    for (int i = 0; i < length; ++i) {
-        password += chars[dist(gen)];
+    for (int i = 0; i < length; ++i)
+    {
+      password += chars[dist(gen)];
     }
 
     return password;
@@ -151,8 +154,16 @@ namespace UserService
     std::cout << "Full name: ";
     std::cin.ignore();
     std::getline(std::cin, fullName);
+
     std::cout << "Username: ";
     std::cin >> username;
+
+    // Kiểm tra username đã tồn tại chưa
+    if (userExists(username))
+    {
+      std::cout << "[ERROR] Username already exists. Please choose a different one.\n";
+      return false;
+    }
 
     if (isAdmin)
     {
@@ -179,13 +190,12 @@ namespace UserService
 
     std::string hashed = hash(password);
     bool mustChange = isAdmin && role == "user";
+
     User user(username, hashed, fullName, role, mustChange);
     outUser = user;
 
     saveUser(user);
-
     backup();
-  
 
     if (role == "user")
     {
