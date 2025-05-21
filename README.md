@@ -18,11 +18,11 @@ Hệ thống cung cấp các chức năng:
 
 ## 👥 Thành viên tham gia và công việc
 
-| Họ tên            | Mã SV      | Vai trò & Công việc                        | Github        |
-| ----------------- | ---------- | ------------------------------------------ | ------------- |
-| Nguyễn Trà My     | K24DTCN526 | Giao diện dòng lệnh, kiểm thử chương trình | [ntt247]      |
-| Nguyễn Quang Minh | K24DTCN524 | Xử lý đăng nhập, sinh password tự động     | [vsind18]     |
-| Lê Thành Tiến     | K24DTCN539 | Trưởng nhóm, thiết kế hệ thống, quản lý ví | [imthanhtien] |
+| Họ tên            | Mã SV      | Vai trò & Công việc                                 | Github        |
+| ----------------- | ---------- | --------------------------------------------------- | ------------- |
+| Nguyễn Trà My     | K24DTCN526 | Giao diện dòng lệnh, kiểm thử chương trình          | [ntt247]      |
+| Nguyễn Quang Minh | K24DTCN524 | Xử lý đăng nhập, sinh password tự động, data backup | [vsind18]     |
+| Lê Thành Tiến     | K24DTCN539 | Trưởng nhóm, thiết kế hệ thống, quản lý ví          | [imthanhtien] |
 
 ---
 
