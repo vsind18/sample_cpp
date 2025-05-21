@@ -103,7 +103,7 @@ g++ -o main main.cpp src/otp.cpp src/ui.cpp src/user_service.cpp src/wallet_serv
 ---
 
 ## 🛠️ Cấu trúc thư mục
-
+```
 ├── main.cpp
 ├── src/
 │ ├── models/
@@ -130,6 +130,7 @@ g++ -o main main.cpp src/otp.cpp src/ui.cpp src/user_service.cpp src/wallet_serv
 │ └── transactions.db
 ├── backup/
 └── README.md
+```
 
 ---
 
